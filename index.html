@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#6366f1">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Made by Janice - Custom Logo Design</title>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Made by Janice</h2>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#home" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#portfolio" class="nav-link">Portfolio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#services" class="nav-link">Services</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">Contact</a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Custom Logo Design</h1>
+                <p class="hero-subtitle">Elevate Your Brand Presence</p>
+                <p class="hero-description">I create unique, professional logos tailored to your brand. Every design is carefully crafted by hand, ensuring originality and authenticity.</p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                    <a href="#portfolio" class="btn btn-secondary">View Portfolio</a>
+                    <a href="#" class="btn btn-watch" id="watchMeBtn">
+                        <span class="watch-icon">
+                            <i class="fas fa-play"></i>
+                        </span>
+                        <span class="watch-text">Watch Me</span>
+                        <span class="watch-sparkles">
+                            <span class="sparkle"></span>
+                            <span class="sparkle"></span>
+                            <span class="sparkle"></span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="logo-showcase">
+                    <div class="logo-item">
+                        <i class="fas fa-palette"></i>
+                        <span>Creative</span>
+                    </div>
+                    <div class="logo-item">
+                        <i class="fas fa-pen-fancy"></i>
+                        <span>Handcrafted</span>
+                    </div>
+                    <div class="logo-item">
+                        <i class="fas fa-star"></i>
+                        <span>Unique</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">What I Offer</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-drafting-compass"></i>
+                    </div>
+                    <h3>Logo Design</h3>
+                    <p>Custom logo designs created from scratch, tailored to your brand identity and vision.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3>Brand Identity</h3>
+                    <p>Complete brand packages including color schemes, typography, and style guidelines.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-redo"></i>
+                    </div>
+                    <h3>Revisions</h3>
+                    <p>Unlimited revisions until you're completely satisfied with your design.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-file-export"></i>
+                    </div>
+                    <h3>File Formats</h3>
+                    <p>Receive your logo in multiple formats: PNG, JPG, SVG, and vector files.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 class="section-title">My Work</h2>
+            <div class="portfolio-filter">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="creative">Creative</button>
+                <button class="filter-btn" data-filter="tech">Tech</button>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-item" data-category="business">
+                    <div class="portfolio-image">
+                        <img class="lazy" data-src="pictures/IMG-20251103-WA0002.jpg" alt="Logo design by Janice">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Corporate Identity</h3>
+                        <p>Professional business logo design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="creative">
+                    <div class="portfolio-image">
+                        <img class="lazy" data-src="pictures/IMG-20251103-WA0003.jpg" alt="Logo design by Janice">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Art Studio</h3>
+                        <p>Creative and artistic logo design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="tech">
+                    <div class="portfolio-image">
+                        <img class="lazy" data-src="pictures/IMG-20251103-WA0004.jpg" alt="Logo design by Janice">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Tech Startup</h3>
+                        <p>Modern technology company logo</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="business">
+                    <div class="portfolio-image">
+                        <img class="lazy" data-src="pictures/IMG-20251103-WA0005.jpg" alt="Logo design by Janice">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Retail Brand</h3>
+                        <p>E-commerce store logo design</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="creative">
+                    <div class="portfolio-image">
+                        <img class="lazy" data-src="pictures/IMG-20251103-WA0006.jpg" alt="Logo design by Janice">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Music Label</h3>
+                        <p>Dynamic music industry logo</p>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="tech">
+                    <div class="portfolio-image">
+                        <img class="lazy" data-src="pictures/IMG-20251103-WA0007.jpg" alt="Logo design by Janice">
+                    </div>
+                    <div class="portfolio-info">
+                        <h3>Mobile App</h3>
+                        <p>Clean and modern app logo</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About Janice</h2>
+                    <p>Hi! I'm Janice, a passionate logo designer with over 5 years of experience creating memorable brand identities. I believe every business has a unique story to tell, and I love helping bring that story to life through thoughtful, handcrafted design.</p>
+                    <p>Unlike AI-generated designs, my logos are created with careful consideration of your brand's personality, target audience, and long-term goals. Each design is original <i> Made by Me Janice </i>, meaningful, and designed to stand the test of time.</p>
+                    <div class="about-stats">
+                        <div class="stat">
+                            <h3>200+</h3>
+                            <p>Logos Created</p>
+                        </div>
+                        <div class="stat">
+                            <h3>5+</h3>
+                            <p>Years Experience</p>
+                        </div>
+                        <div class="stat">
+                            <h3>100%</h3>
+                            <p>Handcrafted</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="profile-placeholder">
+                        <i class="fas fa-user"></i>
+                        <span>Janice</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Let's Work Together</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <p>Ready to create a logo that perfectly represents your brand? Let's discuss your project!</p>
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>wemodoej@gmail.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+233 20 5799997</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Available Worldwide</span>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="company" name="company" placeholder="Company Name">
+                    </div>
+                    <div class="form-group">
+                        <select id="service" name="service" required>
+                            <option value="">Select Service</option>
+                            <option value="logo-design">Logo Design</option>
+                            <option value="brand-identity">Brand Identity</option>
+                            <option value="logo-redesign">Logo Redesign</option>
+                            <option value="consultation">Consultation</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Tell me about your project..." rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Made by Janice</h3>
+                    <p>Creating unique, handcrafted logos that make your brand stand out.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#portfolio">Portfolio</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Me</h4>
+                    <div class="social-links">
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Behance"><i class="fab fa-behance"></i></a>
+                        <a href="#" aria-label="Dribbble"><i class="fab fa-dribbble"></i></a>
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.snapchat.com/add/theflyerarefly" target="_blank" rel="noopener" aria-label="Snapchat"><i class="fab fa-snapchat"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Made by Janice. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Contact Widget -->
+    <div class="floating-contact" aria-label="Quick contact">
+        <button class="floating-contact__toggle" aria-expanded="false" aria-controls="floatingContactMenu">
+            <i class="fas fa-comment-dots"></i>
+        </button>
+        <div class="floating-contact__menu" id="floatingContactMenu" role="menu">
+            <a class="contact-link contact-link--whatsapp" href="https://wa.me/233205799997?text=Janice%20i%20saw%20your%20website%20and%20would%20like%20to%20do%20bussiness%20with%20you" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a class="contact-link contact-link--sms" href="sms:+233205799997" aria-label="SMS">
+                <i class="fas fa-sms"></i>
+            </a>
+            <a class="contact-link contact-link--email" href="mailto:wemodoej@gmail.com" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+            </a>
+            <a class="contact-link contact-link--snapchat" href="https://www.snapchat.com/add/theflyerarefly" target="_blank" rel="noopener" aria-label="Snapchat">
+                <i class="fab fa-snapchat"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Mobile Sticky CTA -->
+    <div class="mobile-cta" role="navigation" aria-label="Quick actions">
+        <a class="mobile-cta__btn mobile-cta__btn--primary" id="mobileCtaWhatsapp" href="https://wa.me/233205799997?text=Janice%20i%20saw%20your%20website%20and%20would%20like%20to%20do%20bussiness%20with%20you" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+        </a>
+        <a class="mobile-cta__btn" href="#contact" aria-label="Go to contact form">
+            <i class="fas fa-envelope"></i>
+            <span>Contact</span>
+        </a>
+    </div>
+
+    <!-- Video Modal -->
+    <div class="video-modal" id="videoModal">
+        <div class="video-modal-overlay" id="videoModalOverlay"></div>
+        <div class="video-modal-content">
+            <button class="video-modal-close" id="videoModalClose" aria-label="Close video">
+                <i class="fas fa-times"></i>
+            </button>
+            <video class="video-modal-player" controls autoplay>
+                <source src="video/6adda60a6a7a40d887cf53d37e5e4c08.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
