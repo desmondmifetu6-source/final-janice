@@ -1,7 +1,9 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const nodemailer = require('nodemailer');
 const path = require('path');
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -10,14 +12,26 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname)));
 
-// Email configuration (you'll need to set up your email service)
-const transporter = nodemailer.createTransport({
-    service: 'gmail', // or your preferred email service
-    auth: {
-        user: process.env.EMAIL_USER || 'your-email@gmail.com',
-        pass: process.env.EMAIL_PASS || 'your-app-password'
-    }
-});
+// Check if email is configured
+const emailConfigured = process.env.EMAIL_USER && 
+                         process.env.EMAIL_PASS && 
+                         process.env.EMAIL_USER !== 'your-email@gmail.com' && 
+                         process.env.EMAIL_PASS !== 'your-app-password';
+
+// Email configuration (only if credentials are provided)
+let transporter = null;
+if (emailConfigured) {
+    transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        }
+    });
+    console.log('✓ Email service configured');
+} else {
+    console.log('⚠ Email not configured - contact form submissions will be logged to console only');
+}
 
 // Contact form endpoint
 app.post('/api/contact', async (req, res) => {
@@ -32,44 +46,96 @@ app.post('/api/contact', async (req, res) => {
             });
         }
         
-        // Email content
-        const mailOptions = {
-            from: process.env.EMAIL_USER || 'your-email@gmail.com',
-            to: 'wemodoej@gmail.com', // Janice's email
-            subject: `New Contact Form Submission from ${name}`,
-            html: `
-                <h2>New Contact Form Submission</h2>
-                <p><strong>Name:</strong> ${name}</p>
-                <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Company:</strong> ${company || 'Not provided'}</p>
-                <p><strong>Service:</strong> ${service || 'Not specified'}</p>
-                <p><strong>Message:</strong></p>
-                <p>${message}</p>
-                <hr>
-                <p><em>This message was sent from the Made by Janice website contact form.</em></p>
-            `
+        // Log the submission (always do this)
+        console.log('\n📧 ===== NEW CONTACT FORM SUBMISSION =====');
+        console.log(`Name: ${name}`);
+        console.log(`Email: ${email}`);
+        console.log(`Company: ${company || 'Not provided'}`);
+        console.log(`Service: ${service || 'Not specified'}`);
+        console.log(`Message: ${message}`);
+        console.log('==========================================\n');
+        
+        // Save submission to file (so client can check it later)
+        const submissionData = {
+            timestamp: new Date().toISOString(),
+            name: name,
+            email: email,
+            company: company || 'Not provided',
+            service: service || 'Not specified',
+            message: message
         };
         
-        // Send email
-        await transporter.sendMail(mailOptions);
+        const submissionsFile = path.join(__dirname, 'contact-submissions.json');
+        let submissions = [];
         
-        // Send confirmation email to client
-        const confirmationMailOptions = {
-            from: process.env.EMAIL_USER || 'your-email@gmail.com',
-            to: email,
-            subject: 'Thank you for contacting Made by Janice!',
-            html: `
-                <h2>Thank you for reaching out!</h2>
-                <p>Hi ${name},</p>
-                <p>Thank you for your interest in my logo design services. I've received your message and will get back to you within 24 hours.</p>
-                <p>In the meantime, feel free to check out my portfolio and learn more about my services.</p>
-                <p>Best regards,<br>Janice</p>
-                <hr>
-                <p><em>Made by Janice - Custom Logo Design</em></p>
-            `
-        };
+        // Read existing submissions if file exists
+        if (fs.existsSync(submissionsFile)) {
+            try {
+                const fileContent = fs.readFileSync(submissionsFile, 'utf8');
+                submissions = JSON.parse(fileContent);
+            } catch (err) {
+                console.error('Error reading submissions file:', err.message);
+            }
+        }
         
-        await transporter.sendMail(confirmationMailOptions);
+        // Add new submission
+        submissions.push(submissionData);
+        
+        // Save to file
+        try {
+            fs.writeFileSync(submissionsFile, JSON.stringify(submissions, null, 2), 'utf8');
+            console.log(`✓ Submission saved to ${submissionsFile}`);
+        } catch (err) {
+            console.error('Error saving submission to file:', err.message);
+        }
+        
+        // Try to send email if configured
+        if (emailConfigured && transporter) {
+            try {
+                // Email content
+                const mailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: 'wemodoej@gmail.com', // Janice's email
+                    subject: `New Contact Form Submission from ${name}`,
+                    html: `
+                        <h2>New Contact Form Submission</h2>
+                        <p><strong>Name:</strong> ${name}</p>
+                        <p><strong>Email:</strong> ${email}</p>
+                        <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+                        <p><strong>Service:</strong> ${service || 'Not specified'}</p>
+                        <p><strong>Message:</strong></p>
+                        <p>${message}</p>
+                        <hr>
+                        <p><em>This message was sent from the Made by Janice website contact form.</em></p>
+                    `
+                };
+                
+                // Send email
+                await transporter.sendMail(mailOptions);
+                
+                // Send confirmation email to client
+                const confirmationMailOptions = {
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: 'Thank you for contacting Made by Janice!',
+                    html: `
+                        <h2>Thank you for reaching out!</h2>
+                        <p>Hi ${name},</p>
+                        <p>Thank you for your interest in my logo design services. I've received your message and will get back to you within 24 hours.</p>
+                        <p>In the meantime, feel free to check out my portfolio and learn more about my services.</p>
+                        <p>Best regards,<br>Janice</p>
+                        <hr>
+                        <p><em>Made by Janice - Custom Logo Design</em></p>
+                    `
+                };
+                
+                await transporter.sendMail(confirmationMailOptions);
+                console.log('✓ Emails sent successfully');
+            } catch (emailError) {
+                console.error('⚠ Error sending email (but submission was logged):', emailError.message);
+                // Continue anyway - we've already logged it
+            }
+        }
         
         res.json({ 
             success: true, 
@@ -77,7 +143,7 @@ app.post('/api/contact', async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Error sending email:', error);
+        console.error('Error processing contact form:', error);
         res.status(500).json({ 
             success: false, 
             message: 'Failed to send message. Please try again later.' 

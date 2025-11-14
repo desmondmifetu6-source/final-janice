@@ -75,56 +75,71 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Contact Form Handling
-const contactForm = document.getElementById('contactForm');
+function setupContactForm() {
+    const contactForm = document.getElementById('contactForm');
+    if (!contactForm) return;
 
-contactForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const submitButton = contactForm.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    
-    // Show loading state
-    submitButton.innerHTML = '<span class="loading"></span> Sending...';
-    submitButton.disabled = true;
-    
-    // Get form data
-    const formData = new FormData(contactForm);
-    const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        company: formData.get('company'),
-        service: formData.get('service'),
-        message: formData.get('message')
-    };
-    
-    try {
-        // Send to backend API
-        const response = await fetch('/api/contact', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        });
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
         
-        if (response.ok) {
-            showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
-            contactForm.reset();
-        } else {
-            throw new Error('Failed to send message');
+        // Validate form before submission
+        if (!validateForm()) {
+            return;
         }
-    } catch (error) {
-        console.error('Error:', error);
-        showMessage('Sorry, there was an error sending your message. Please try again or contact me directly.', 'error');
-    } finally {
-        // Reset button
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }
-});
+        
+        const submitButton = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitButton.textContent;
+        
+        // Show loading state
+        submitButton.innerHTML = '<span class="loading"></span> Sending...';
+        submitButton.disabled = true;
+        
+        // Get form data
+        const formData = new FormData(contactForm);
+        const data = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            company: formData.get('company'),
+            service: formData.get('service'),
+            message: formData.get('message')
+        };
+        
+        try {
+            // Send to backend API
+            const response = await fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+            
+            if (response.ok) {
+                showMessage('Thank you! Your message has been sent successfully. I\'ll get back to you soon!', 'success');
+                contactForm.reset();
+            } else {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.message || 'Failed to send message');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            showMessage('Sorry, there was an error sending your message. Please try again or contact me directly.', 'error');
+        } finally {
+            // Reset button
+            submitButton.textContent = originalText;
+            submitButton.disabled = false;
+        }
+    });
+}
+
+// Initialize contact form when DOM is ready
+document.addEventListener('DOMContentLoaded', setupContactForm);
 
 // Show success/error messages
 function showMessage(text, type) {
+    const contactForm = document.getElementById('contactForm');
+    if (!contactForm) return;
+    
     // Remove existing messages
     const existingMessage = document.querySelector('.message');
     if (existingMessage) {
@@ -349,12 +364,7 @@ function isValidEmail(email) {
     return emailRegex.test(email);
 }
 
-// Add form validation to contact form
-contactForm.addEventListener('submit', (e) => {
-    if (!validateForm()) {
-        e.preventDefault();
-    }
-});
+// Form validation is now integrated into the main submit handler
 
 // Lazy loading for portfolio images (if real images are added later)
 function lazyLoadImages() {
@@ -450,9 +460,9 @@ document.head.appendChild(rippleStyle);
 // Floating Contact Widget
 // Configure these with your crush's details
 window.contactConfig = window.contactConfig || {
-    phone: 'YOUR_PHONE_NUMBER_HERE', // e.g., +1234567890
-    email: 'YOUR_EMAIL_HERE@example.com',
-    snapchat: 'your_snapchat_username',
+    phone: '+233 20 575 9997', // e.g., +1234567890
+    email: 'wemodoej@gmail.com',
+    snapchat: 'theflyerarefly',
     defaultMessage: 'hi Janice i would like to place an order'
 };
 
@@ -480,7 +490,8 @@ function setupFloatingContact() {
         whatsapp.href = phoneDigits ? `https://wa.me/${phoneDigits}${textParam}` : '#';
     }
     if (sms) {
-        sms.href = phoneDigits ? (hasText ? `sms:${phoneDigits}?body=${encodeURIComponent(cfg.defaultMessage)}` : `sms:${phoneDigits}`) : '#';
+        const smsPhone = cfg.phone ? cfg.phone.replace(/\s/g, '') : '';
+        sms.href = smsPhone ? (hasText ? `sms:${smsPhone}?body=${encodeURIComponent(cfg.defaultMessage)}` : `sms:${smsPhone}`) : '#';
     }
     if (email) {
         let mailto = cfg.email ? `mailto:${cfg.email}` : '#';
@@ -513,10 +524,19 @@ function setupFloatingContact() {
 
 document.addEventListener('DOMContentLoaded', setupFloatingContact);
 
-// Mobile sticky CTA wiring - already set in HTML with pre-filled message
+// Mobile sticky CTA wiring
 function setupMobileCta() {
-    // WhatsApp button already has the correct link with message in HTML
-    // This function is kept for compatibility but link is already set
+    const mobileCtaWhatsapp = document.getElementById('mobileCtaWhatsapp');
+    if (!mobileCtaWhatsapp) return;
+    
+    const cfg = window.contactConfig || {};
+    const phoneDigits = normalizePhoneNumber(cfg.phone);
+    const hasText = typeof cfg.defaultMessage === 'string' && cfg.defaultMessage.trim() !== '';
+    
+    if (phoneDigits) {
+        const textParam = hasText ? `?text=${encodeURIComponent(cfg.defaultMessage)}` : '';
+        mobileCtaWhatsapp.href = `https://wa.me/${phoneDigits}${textParam}`;
+    }
 }
 
 document.addEventListener('DOMContentLoaded', setupMobileCta);
